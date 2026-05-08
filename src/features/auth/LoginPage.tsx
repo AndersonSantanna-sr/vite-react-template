@@ -74,11 +74,7 @@ export default function LoginPage() {
               </p>
             )}
 
-            <Button
-              type='submit'
-              disabled={!isValid || isPending}
-              data-testid='login-button'
-            >
+            <Button type='submit' disabled={!isValid || isPending} data-testid='login-button'>
               {isPending ? 'Entrando...' : 'Entrar'}
             </Button>
           </form>
