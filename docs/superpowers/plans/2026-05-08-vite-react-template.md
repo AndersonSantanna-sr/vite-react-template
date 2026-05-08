@@ -15,6 +15,7 @@
 ## File Map
 
 **Create:**
+
 - `src/lib/token-storage.ts` — localStorage wrapper (get/set/delete)
 - `src/lib/api.ts` — Axios instance + interceptors
 - `src/lib/__tests__/token-storage.test.ts`
@@ -39,6 +40,7 @@
 - `.env.example`
 
 **Modify:**
+
 - `vite.config.ts` — add @tailwindcss/vite plugin + path alias + vitest config
 - `tsconfig.app.json` — add baseUrl + paths + vitest/jest-dom types
 - `eslint.config.js` — add eslint-config-prettier
@@ -52,6 +54,7 @@
 ## Task 1: Install Dependencies + Update Scripts
 
 **Files:**
+
 - Modify: `package.json`
 
 - [ ] **Step 1: Install runtime dependencies**
@@ -102,6 +105,7 @@ git commit -m "chore: install dependencies and update scripts"
 ## Task 2: Configure Path Aliases
 
 **Files:**
+
 - Modify: `tsconfig.app.json`
 - Modify: `vite.config.ts`
 
@@ -189,6 +193,7 @@ git commit -m "chore: configure path alias and vitest in vite config"
 ## Task 3: Setup Tailwind v4 + shadcn/ui
 
 **Files:**
+
 - Modify: `src/index.css`
 - Create: `components.json` (by shadcn CLI)
 - Create: `src/lib/utils.ts` (by shadcn CLI)
@@ -198,7 +203,7 @@ git commit -m "chore: configure path alias and vitest in vite config"
 Replace entire `src/index.css` with:
 
 ```css
-@import "tailwindcss";
+@import 'tailwindcss';
 ```
 
 shadcn init will append CSS variable definitions to this file in the next step.
@@ -210,6 +215,7 @@ npx shadcn@latest init
 ```
 
 When prompted, answer:
+
 - **Which style would you like to use?** → `Default`
 - **Which color would you like to use as the base color?** → `Slate`
 - **Would you like to use CSS variables for colors?** → `yes`
@@ -245,6 +251,7 @@ git commit -m "chore: setup Tailwind v4 and shadcn/ui with button, input, card"
 ## Task 4: Configure Prettier + ESLint
 
 **Files:**
+
 - Create: `.prettierrc`
 - Create: `.prettierignore`
 - Modify: `eslint.config.js`
@@ -331,6 +338,7 @@ git commit -m "chore: configure prettier and eslint-config-prettier"
 ## Task 5: Setup Vitest + Test Infrastructure
 
 **Files:**
+
 - Create: `src/test-setup.ts`
 
 - [ ] **Step 1: Create test setup file**
@@ -361,6 +369,7 @@ git commit -m "chore: add vitest test setup with jest-dom matchers"
 ## Task 6: Husky + lint-staged + CI + .env.example
 
 **Files:**
+
 - Create: `.lintstagedrc.js`
 - Create: `.husky/pre-commit`
 - Create: `.github/workflows/ci.yml`
@@ -448,6 +457,7 @@ git commit -m "chore: add husky pre-commit hook, lint-staged, CI workflow"
 ## Task 7: token-storage (TDD)
 
 **Files:**
+
 - Create: `src/lib/__tests__/token-storage.test.ts`
 - Create: `src/lib/token-storage.ts`
 
@@ -529,6 +539,7 @@ git commit -m "feat: add localStorage token storage"
 ## Task 8: auth-store (TDD)
 
 **Files:**
+
 - Create: `src/stores/__tests__/auth-store.test.ts`
 - Create: `src/stores/auth-store.ts`
 
@@ -687,6 +698,7 @@ git commit -m "feat: add Zustand auth store with localStorage persistence"
 ## Task 9: api.ts + QueryProvider
 
 **Files:**
+
 - Create: `src/lib/api.ts`
 - Create: `src/providers/QueryProvider.tsx`
 
@@ -768,6 +780,7 @@ git commit -m "feat: add Axios instance with interceptors and QueryProvider"
 ## Task 10: Auth Schema + useLogin Hook
 
 **Files:**
+
 - Create: `src/features/auth/schemas/auth.ts`
 - Create: `src/features/auth/hooks/useLogin.ts`
 
@@ -832,6 +845,7 @@ git commit -m "feat: add login Zod schema and useLogin mutation hook"
 ## Task 11: LoginPage (TDD)
 
 **Files:**
+
 - Create: `src/features/auth/__tests__/LoginPage.test.tsx`
 - Create: `src/features/auth/LoginPage.tsx`
 
@@ -1036,6 +1050,7 @@ git commit -m "feat: add LoginPage with react-hook-form, Zod validation, shadcn 
 ## Task 12: DashboardPage + NotFoundPage
 
 **Files:**
+
 - Create: `src/features/dashboard/DashboardPage.tsx`
 - Create: `src/features/not-found/NotFoundPage.tsx`
 
@@ -1108,6 +1123,7 @@ git commit -m "feat: add DashboardPage and NotFoundPage"
 ## Task 13: Route Layouts (AuthLayout + AppLayout)
 
 **Files:**
+
 - Create: `src/routes/AuthLayout.tsx`
 - Create: `src/routes/AppLayout.tsx`
 
@@ -1167,6 +1183,7 @@ git commit -m "feat: add AuthLayout and AppLayout route guards"
 ## Task 14: Router + App.tsx
 
 **Files:**
+
 - Create: `src/routes/router.tsx`
 - Modify: `src/App.tsx`
 
@@ -1288,12 +1305,14 @@ pnpm dev
 ```
 
 Navigate to:
+
 - `http://localhost:5173/` → should redirect to `/login` (not authenticated)
 - `http://localhost:5173/login` → should show Login form
 - `http://localhost:5173/dashboard` → should redirect to `/login`
 - `http://localhost:5173/anything-else` → should show 404 page
 
 Submit login form with email `test@test.com` / password `123456`:
+
 - Should call `store.login()` (mutation will fail since no API, but auth state updates via `onSuccess` won't fire — that's expected for template)
 
 Stop with `Ctrl+C`.

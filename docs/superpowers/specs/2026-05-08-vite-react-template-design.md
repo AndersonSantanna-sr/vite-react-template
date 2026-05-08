@@ -8,6 +8,7 @@
 ## Goal
 
 Configure `vite-react-template` as a production-ready React SPA template with:
+
 - Public/private routing (login + dashboard)
 - Auth flow (Zustand store + localStorage token)
 - Data layer (Axios + React Query)
@@ -20,20 +21,21 @@ Configure `vite-react-template` as a production-ready React SPA template with:
 
 ## Stack
 
-| Layer | Library |
-|---|---|
-| Build | Vite + TypeScript |
-| UI | React 19 + Tailwind CSS v4 + shadcn/ui |
-| Router | React Router v7 (`createBrowserRouter`) |
-| Server state | TanStack React Query v5 |
-| HTTP | Axios (interceptors: Bearer token + 401 → logout) |
-| Client state | Zustand v5 |
-| Forms | react-hook-form + @hookform/resolvers + Zod v4 |
-| Tests | Vitest + @testing-library/react |
-| Git hooks | Husky + lint-staged |
-| CI | GitHub Actions |
+| Layer        | Library                                           |
+| ------------ | ------------------------------------------------- |
+| Build        | Vite + TypeScript                                 |
+| UI           | React 19 + Tailwind CSS v4 + shadcn/ui            |
+| Router       | React Router v7 (`createBrowserRouter`)           |
+| Server state | TanStack React Query v5                           |
+| HTTP         | Axios (interceptors: Bearer token + 401 → logout) |
+| Client state | Zustand v5                                        |
+| Forms        | react-hook-form + @hookform/resolvers + Zod v4    |
+| Tests        | Vitest + @testing-library/react                   |
+| Git hooks    | Husky + lint-staged                               |
+| CI           | GitHub Actions                                    |
 
 ### Prettier config (mirrors RN template)
+
 ```json
 {
   "singleQuote": true,
@@ -47,6 +49,7 @@ Configure `vite-react-template` as a production-ready React SPA template with:
 ```
 
 ### lint-staged
+
 - `src/**/*.{ts,tsx}` → eslint + prettier
 - `*.{json,md}` → prettier
 
@@ -91,23 +94,27 @@ src/
 ## Auth Flow
 
 ### Initialization
+
 1. App mounts → `useEffect` calls `initAuth()`
 2. `initAuth()` reads token from localStorage
 3. Sets `isAuthenticated: true` if token exists, then `isInitialized: true`
 4. App renders `null` until `isInitialized` — prevents flash of wrong route
 
 ### Route protection
+
 - `AuthLayout`: wraps public routes (`/login`). If `isAuthenticated` → `<Navigate to="/dashboard" replace />`
 - `AppLayout`: wraps private routes (`/dashboard`). If `!isAuthenticated` → `<Navigate to="/login" replace />`
 - Both layouts wait for `isInitialized` before redirecting (renders `null` meanwhile)
 
 ### Login submit
+
 1. `LoginPage` submits form → `useLogin` mutation
 2. `useLogin` calls `api.post('/auth/login', { email, password })`
 3. On success → `store.login(user, token)` → token saved to localStorage → `isAuthenticated: true`
 4. `AuthLayout` detects auth change → redirects to `/dashboard`
 
 ### Token refresh / 401
+
 - Axios response interceptor catches 401 → calls `store.logout()`
 - `store.logout()` clears localStorage token + sets `isAuthenticated: false`
 - `AppLayout` detects state change → redirects to `/login`
@@ -116,18 +123,19 @@ src/
 
 ## Routes
 
-| Path | Layout | Component | Access |
-|---|---|---|---|
-| `/` | — | `<Navigate to="/dashboard" />` | — |
-| `/login` | `AuthLayout` | `LoginPage` | Public |
-| `/dashboard` | `AppLayout` | `DashboardPage` | Private |
-| `*` | — | `NotFoundPage` | Public |
+| Path         | Layout       | Component                      | Access  |
+| ------------ | ------------ | ------------------------------ | ------- |
+| `/`          | —            | `<Navigate to="/dashboard" />` | —       |
+| `/login`     | `AuthLayout` | `LoginPage`                    | Public  |
+| `/dashboard` | `AppLayout`  | `DashboardPage`                | Private |
+| `*`          | —            | `NotFoundPage`                 | Public  |
 
 ---
 
 ## Components
 
 ### `LoginPage`
+
 - Fields: email + password
 - Validation: Zod schema (email valid, password min 6 chars)
 - Submit disabled until form valid
@@ -135,20 +143,24 @@ src/
 - Portuguese labels (mirrors RN template)
 
 ### `DashboardPage`
+
 - Shows authenticated user's email
 - Logout button → `store.logout()`
 - Minimal — template placeholder
 
 ### `NotFoundPage`
+
 - "Página não encontrada" message
 - Link back to `/`
 - Accessible without authentication
 
 ### `AppLayout`
+
 - Renders `<Outlet />` when authenticated
 - Shows loading state while `!isInitialized`
 
 ### `AuthLayout`
+
 - Renders `<Outlet />` when not authenticated
 - Shows loading state while `!isInitialized`
 
@@ -157,18 +169,21 @@ src/
 ## Data Layer
 
 ### `api.ts`
+
 ```typescript
 // Request interceptor: attach Bearer token from Zustand store (no subscribe — getState())
 // Response interceptor: 401 → store.logout()
 ```
 
 ### `token-storage.ts`
+
 ```typescript
 // Mirrors RN template SecureStore interface: get(), set(token), delete()
 // Implementation: localStorage
 ```
 
 ### `auth-store.ts`
+
 ```typescript
 // State: isAuthenticated, isInitialized, user, token
 // Actions: initAuth(), login(user, token?), logout(), reset()
@@ -176,6 +191,7 @@ src/
 ```
 
 ### `QueryProvider.tsx`
+
 ```typescript
 // QueryClient: staleTime 5min, retry 2
 // Mirrors RN template
@@ -199,6 +215,7 @@ File: `.github/workflows/ci.yml`
 Trigger: PR to any branch
 
 Steps:
+
 1. Checkout + Node 22 + pnpm
 2. `pnpm install --frozen-lockfile`
 3. `pnpm lint`
@@ -210,6 +227,7 @@ Steps:
 ## Path Aliases
 
 `tsconfig.app.json` + `vite.config.ts`:
+
 - `@/*` → `./src/*`
 
 ---
