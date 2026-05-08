@@ -1,73 +1,109 @@
-# React + TypeScript + Vite
+# vite-react-template
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Production-ready React SPA template. Auth routing, data layer, form validation, UI components, and full tooling — ready to clone and build on.
 
-Currently, two official plugins are available:
+Mirrors the architecture of [react-native-template](../react-native-template) for consistency across web and mobile.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Stack
 
-## React Compiler
+| Layer | Library |
+|---|---|
+| Build | Vite + TypeScript |
+| UI | React 19 + Tailwind CSS v4 + shadcn/ui |
+| Router | React Router v7 |
+| Server state | TanStack React Query v5 |
+| HTTP | Axios (Bearer token + 401 auto-logout) |
+| Client state | Zustand v5 |
+| Forms | react-hook-form + Zod |
+| Tests | Vitest + @testing-library/react |
+| Git hooks | Husky + lint-staged |
+| CI | GitHub Actions |
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Structure
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+```
+src/
+  components/ui/        # shadcn/ui components
+  features/
+    auth/               # LoginPage, schema, useLogin hook, tests
+    dashboard/          # DashboardPage (private placeholder)
+    not-found/          # NotFoundPage (404)
+  lib/
+    api.ts              # Axios instance + interceptors
+    token-storage.ts    # localStorage wrapper
+  providers/
+    QueryProvider.tsx
+  routes/
+    AuthLayout.tsx      # Public guard (redirects if authenticated)
+    AppLayout.tsx       # Private guard (redirects if not authenticated)
+    router.tsx
+  stores/
+    auth-store.ts       # Zustand auth store
+  App.tsx
+  main.tsx
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Routes
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
+| Path | Access | Component |
+|---|---|---|
+| `/` | — | Redirects to `/dashboard` |
+| `/login` | Public | LoginPage |
+| `/dashboard` | Private | DashboardPage |
+| `*` | Public | NotFoundPage |
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+## Getting Started
+
+```bash
+# Install dependencies
+pnpm install
+
+# Copy env file and set API URL
+cp .env.example .env
+
+# Start dev server
+pnpm dev
 ```
+
+## Scripts
+
+```bash
+pnpm dev          # Start dev server
+pnpm build        # Type-check + build
+pnpm typecheck    # TypeScript check only
+pnpm lint         # ESLint (zero warnings)
+pnpm format       # Prettier
+pnpm test         # Vitest watch
+pnpm test:run     # Vitest single run
+```
+
+## Auth Flow
+
+1. App mounts → `initAuth()` reads token from localStorage
+2. `AuthLayout` / `AppLayout` redirect based on auth state
+3. Login form submits → `useLogin` mutation → `api.post('/auth/login')` → token stored
+4. Axios response interceptor: 401 → `store.logout()` → redirect to `/login`
+
+## Adding a New Private Route
+
+1. Create `src/features/<name>/<Name>Page.tsx`
+2. Add to `router.tsx` under the `AppLayout` children array
+
+## Adding a New Public Route
+
+1. Create `src/features/<name>/<Name>Page.tsx`
+2. Add to `router.tsx` under the `AuthLayout` children array (or at root for unguarded)
+
+## Environment Variables
+
+| Variable | Description |
+|---|---|
+| `VITE_API_URL` | Base URL for the API (e.g. `http://localhost:3000`) |
+
+All Vite env vars must be prefixed with `VITE_`.
+
+## Notes
+
+- `user` in the auth store is `null` after page reload — only the token is persisted. Fetch the user profile from your API after authentication if needed.
+- shadcn components live in `src/components/ui/` and are excluded from ESLint (auto-generated).
+- Pre-commit hook runs ESLint + Prettier on staged files via lint-staged.
