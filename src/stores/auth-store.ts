@@ -27,6 +27,8 @@ export const useAuthStore = create<AuthState>((set) => ({
     try {
       const token = tokenStorage.get();
       if (token) {
+        // user is null after reload — only token is persisted.
+        // consuming apps must re-fetch the profile after initAuth.
         set({ isAuthenticated: true, token, user: null });
       }
     } catch {
