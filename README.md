@@ -56,15 +56,15 @@ src/
 
 When using this template, search for `// TODO:` across the codebase. Each one marks something to change:
 
-| File | TODO |
-|---|---|
-| `index.html` | Update app title and favicon |
-| `package.json` | Update `name`, `version`, `description` |
-| `.env.example` → `.env` | Set `VITE_API_URL` to your API base URL |
-| `src/stores/auth-store.ts` | Extend `User` type with fields your API returns |
-| `src/features/auth/hooks/useLogin.ts` | Update `LoginResponse` type + endpoint path |
-| `src/features/auth/LoginPage.tsx` | Update branding and copy |
-| `src/features/dashboard/DashboardPage.tsx` | Replace placeholder with real content |
+| File                                       | TODO                                            |
+| ------------------------------------------ | ----------------------------------------------- |
+| `index.html`                               | Update app title and favicon                    |
+| `package.json`                             | Update `name`, `version`, `description`         |
+| `.env.example` → `.env`                    | Set `VITE_API_URL` to your API base URL         |
+| `src/stores/auth-store.ts`                 | Extend `User` type with fields your API returns |
+| `src/features/auth/hooks/useLogin.ts`      | Update `LoginResponse` type + endpoint path     |
+| `src/features/auth/LoginPage.tsx`          | Update branding and copy                        |
+| `src/features/dashboard/DashboardPage.tsx` | Replace placeholder with real content           |
 
 ---
 
