@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { RouterProvider } from 'react-router-dom';
+import { Toaster } from '@/components/ui/sonner';
 import { QueryProvider } from '@/providers/QueryProvider';
 import { useAuthStore } from '@/stores/auth-store';
 import { router } from '@/routes/router';
@@ -14,6 +15,7 @@ export default function App() {
   return (
     <QueryProvider>
       <RouterProvider router={router} />
+      <Toaster />
     </QueryProvider>
   );
 }
