@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { useAuthStore } from '@/stores/auth-store';
 
+// TODO: replace with actual dashboard content
 export default function DashboardPage() {
   const user = useAuthStore((s) => s.user);
   const logout = useAuthStore((s) => s.logout);

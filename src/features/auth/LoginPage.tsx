@@ -21,6 +21,7 @@ export default function LoginPage() {
   return (
     <div className='flex min-h-screen items-center justify-center bg-background'>
       <Card className='w-full max-w-sm'>
+        {/* TODO: update branding and copy */}
         <CardHeader>
           <CardTitle>Bem-vindo</CardTitle>
         </CardHeader>

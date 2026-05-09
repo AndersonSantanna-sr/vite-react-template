@@ -6,18 +6,18 @@ Mirrors the architecture of [react-native-template](../react-native-template) fo
 
 ## Stack
 
-| Layer | Library |
-|---|---|
-| Build | Vite + TypeScript |
-| UI | React 19 + Tailwind CSS v4 + shadcn/ui |
-| Router | React Router v7 |
-| Server state | TanStack React Query v5 |
-| HTTP | Axios (Bearer token + 401 auto-logout) |
-| Client state | Zustand v5 |
-| Forms | react-hook-form + Zod |
-| Tests | Vitest + @testing-library/react |
-| Git hooks | Husky + lint-staged |
-| CI | GitHub Actions |
+| Layer        | Library                                |
+| ------------ | -------------------------------------- |
+| Build        | Vite + TypeScript                      |
+| UI           | React 19 + Tailwind CSS v4 + shadcn/ui |
+| Router       | React Router v7                        |
+| Server state | TanStack React Query v5                |
+| HTTP         | Axios (Bearer token + 401 auto-logout) |
+| Client state | Zustand v5                             |
+| Forms        | react-hook-form + Zod                  |
+| Tests        | Vitest + @testing-library/react        |
+| Git hooks    | Husky + lint-staged                    |
+| CI           | GitHub Actions                         |
 
 ## Structure
 
@@ -45,12 +45,28 @@ src/
 
 ## Routes
 
-| Path | Access | Component |
-|---|---|---|
-| `/` | — | Redirects to `/dashboard` |
-| `/login` | Public | LoginPage |
-| `/dashboard` | Private | DashboardPage |
-| `*` | Public | NotFoundPage |
+| Path         | Access  | Component                 |
+| ------------ | ------- | ------------------------- |
+| `/`          | —       | Redirects to `/dashboard` |
+| `/login`     | Public  | LoginPage                 |
+| `/dashboard` | Private | DashboardPage             |
+| `*`          | Public  | NotFoundPage              |
+
+## New Project Checklist
+
+When using this template, search for `// TODO:` across the codebase. Each one marks something to change:
+
+| File | TODO |
+|---|---|
+| `index.html` | Update app title and favicon |
+| `package.json` | Update `name`, `version`, `description` |
+| `.env.example` → `.env` | Set `VITE_API_URL` to your API base URL |
+| `src/stores/auth-store.ts` | Extend `User` type with fields your API returns |
+| `src/features/auth/hooks/useLogin.ts` | Update `LoginResponse` type + endpoint path |
+| `src/features/auth/LoginPage.tsx` | Update branding and copy |
+| `src/features/dashboard/DashboardPage.tsx` | Replace placeholder with real content |
+
+---
 
 ## Getting Started
 
@@ -96,8 +112,8 @@ pnpm test:run     # Vitest single run
 
 ## Environment Variables
 
-| Variable | Description |
-|---|---|
+| Variable       | Description                                         |
+| -------------- | --------------------------------------------------- |
 | `VITE_API_URL` | Base URL for the API (e.g. `http://localhost:3000`) |
 
 All Vite env vars must be prefixed with `VITE_`.

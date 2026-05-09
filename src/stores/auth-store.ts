@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { tokenStorage } from '@/lib/token-storage';
 
+// TODO: extend User with fields your API returns (e.g. id, name, role)
 type User = { email: string };
 
 type AuthState = {

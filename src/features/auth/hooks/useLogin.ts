@@ -3,6 +3,7 @@ import { api } from '@/lib/api';
 import { useAuthStore } from '@/stores/auth-store';
 import { type LoginFormData } from '../schemas/auth';
 
+// TODO: update LoginResponse to match your API's actual response shape
 type LoginResponse = {
   user: { email: string };
   token: string;
@@ -13,6 +14,7 @@ export function useLogin() {
 
   return useMutation({
     mutationFn: (data: LoginFormData) =>
+      // TODO: update endpoint to match your API
       api.post<LoginResponse>('/auth/login', data).then((r) => r.data),
     onSuccess: ({ user, token }) => login(user, token),
   });
